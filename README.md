@@ -21,7 +21,7 @@ Coming from PHP, juggling types around is [hard yo](https://github.com/robertbas
 
 ## Day 2
 
-I don't understand why do I need to re-read a file [after scanning it once](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day2.go#L13-L24)? Or is there maybe to "reset" a scanner?
+I don't understand why do I need to re-read a file [after scanning it once](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day2.go#L13-L24)? Or is there maybe a way to "reset" a scanner?
 
 There's a difference between a [`bufio.Scanner`](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day2.go#L27) and a `scanner.Scanner`. I first type-hinted the `scanner` against `scanner.Scanner`, took me a while to figure out why all of a sudden `scanner.Scan()` wanted to return 3 values instead of a `bool`.
 
