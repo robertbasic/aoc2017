@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -13,10 +14,14 @@ func Day2() {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-
 	cs := CheckSum(scanner)
-
 	fmt.Println("The checksum is: ", cs)
+
+	file, _ = os.Open("./inputs/day2.txt")
+	defer file.Close()
+	scanner = bufio.NewScanner(file)
+	cs = CheckSumDivs(scanner)
+	fmt.Println("The divisible checksum is: ", cs)
 }
 
 func CheckSum(scanner *bufio.Scanner) int {
@@ -25,6 +30,18 @@ func CheckSum(scanner *bufio.Scanner) int {
 
 	for scanner.Scan() {
 		d = RowDiff(scanner.Text())
+		cs = cs + d
+	}
+
+	return cs
+}
+
+func CheckSumDivs(scanner *bufio.Scanner) int {
+	var cs int
+	var d int
+
+	for scanner.Scan() {
+		d = RowEvenDiv(scanner.Text())
 		cs = cs + d
 	}
 
@@ -50,4 +67,33 @@ func RowDiff(row string) int {
 	diff = h - l
 
 	return diff
+}
+
+func RowEvenDiv(row string) int {
+	var div int
+
+	ints := strings.Fields(row)
+
+	for i := 0; i < len(ints); i++ {
+		dividend, _ := strconv.ParseFloat(ints[i], 64)
+
+		for j := 0; j < len(ints); j++ {
+			if i == j {
+				continue
+			}
+
+			divisor, _ := strconv.ParseFloat(ints[j], 64)
+
+			if divisor > dividend {
+				continue
+			}
+
+			if math.Mod(dividend, divisor) == 0.0 {
+				d := dividend / divisor
+				div = div + int(d)
+			}
+		}
+	}
+
+	return div
 }
