@@ -36,3 +36,5 @@ So far the smallest thing I constantly trip up on is `=` vs `:=`. I'll learn it,
 ## Day 3
 
 Puzzle 1 was tough as balls.
+
+I cheated with puzzle 2 and solved it with [OEIS](https://oeis.org/A141481).
