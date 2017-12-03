@@ -32,3 +32,7 @@ Good thing about this [`bufio.NewScanner`](https://github.com/robertbasic/aoc201
 [`strings.Fields`](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day2.go#L75) is nice, splits a string by whitespace.
 
 So far the smallest thing I constantly trip up on is `=` vs `:=`. I'll learn it, eventually.
+
+## Day 3
+
+Puzzle 1 was tough as balls.
