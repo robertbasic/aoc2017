@@ -38,3 +38,7 @@ So far the smallest thing I constantly trip up on is `=` vs `:=`. I'll learn it,
 Puzzle 1 was tough as balls.
 
 I cheated with puzzle 2 and solved it with [OEIS](https://oeis.org/A141481).
+
+## Day 4
+
+Nothing special about puzzle 1 for today. It's just wierd that Go has no "unique" function.
