@@ -42,3 +42,6 @@ I cheated with puzzle 2 and solved it with [OEIS](https://oeis.org/A141481).
 ## Day 4
 
 Nothing special about puzzle 1 for today. It's just wierd that Go has no "unique" function.
+
+For puzzle 2, I first named the `resort` function as `sort`. That tripped up Go and couldn't
+import the `sort` package.
