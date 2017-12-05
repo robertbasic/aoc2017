@@ -45,3 +45,13 @@ Nothing special about puzzle 1 for today. It's just wierd that Go has no "unique
 
 For puzzle 2, I first named the `resort` function as `sort`. That tripped up Go and couldn't
 import the `sort` package.
+
+## Day 5
+
+With puzzle 1, I first tried to use a `map` for `instructions`, realised that a map is unordered, so I had to
+switch to a slice.
+
+Then I kept comparing `pos > l` and wondering why I keep getting an index out of range error.
+
+For puzzle 2, what caught me off guard is that the slices are "just pointers" to the underlying array. See this
+[goplay](https://play.golang.org/p/AIzHYPB07F)
