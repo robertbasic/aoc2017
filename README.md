@@ -55,3 +55,11 @@ Then I kept comparing `pos > l` and wondering why I keep getting an index out of
 
 For puzzle 2, what caught me off guard is that the slices are "just pointers" to the underlying array. See this
 [goplay](https://play.golang.org/p/AIzHYPB07F)
+
+## Day 6
+
+For puzzle 1, I made a mistake in generating the `k` for the `blocks` map. I used only the value from the slice,
+which caused incorrect result in the end, as it breaks when, for example, we have 11 & 1, and 1 & 11.
+
+For puzzle 2, I just dumped all the `k`s from the `blocks` map into a file, found the line number on which
+the last line first appears/repeats, substracted it from the last line number, voila.
