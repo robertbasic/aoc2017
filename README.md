@@ -63,3 +63,18 @@ which caused incorrect result in the end, as it breaks when, for example, we hav
 
 For puzzle 2, I just dumped all the `k`s from the `blocks` map into a file, found the line number on which
 the last line first appears/repeats, substracted it from the last line number, voila.
+
+## Day 7
+
+Solved the first puzzle with an "array diff". Built two slices, one with all the programs that are holding
+other programs, and another slice with all the programs that are being held by other programs. The difference
+between those two slices is the program that holds all the other programs.
+
+The second puzzle was harder. I didn't even solve it properly.
+
+Knowing the "root" program from the first puzzle, I built a tree of towers from the bottom up. Every tower
+has the name, the weight, the carried weight and the total weight.
+
+Then the idea was to go through this tree and find the out of balance tower. Ended up just dumping the whole
+tower tree into a file and then visually look for the branches that are out of balance until I spotted the
+one that has the wrong weight.
