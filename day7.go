@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"regexp"
 	"strconv"
@@ -25,12 +24,6 @@ func Day7() {
 	file, _ := os.Open("./inputs/day7.txt")
 	defer file.Close()
 
-	bottomTower := FindBottomTower(file)
-	fmt.Println("Bottom tower is: ", bottomTower)
-
-	file, _ = os.Open("./inputs/day7.txt")
-	defer file.Close()
-
 	lines := make([]string, 0)
 
 	scanner := bufio.NewScanner(file)
@@ -38,6 +31,9 @@ func Day7() {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
+
+	bottomTower := FindBottomTower(lines)
+	fmt.Println("Bottom tower is: ", bottomTower)
 
 	w := BalanceTower(bottomTower, lines)
 	fmt.Println("Weight required to balance tower", w)
@@ -97,31 +93,27 @@ func getweight(l string) int {
 }
 
 // FindBottomTower finds the bottom tower
-func FindBottomTower(input io.Reader) string {
+func FindBottomTower(lines []string) string {
 	holdingUp := make(map[string]bool)
 	heldUp := make(map[string]bool)
 
-	scanner := bufio.NewScanner(input)
-
-	for scanner.Scan() {
-		t := scanner.Text()
-
-		if t == "" {
+	for _, l := range lines {
+		if l == "" {
 			continue
 		}
 
-		if !strings.Contains(t, "->") {
+		if !strings.Contains(l, "->") {
 			continue
 		}
 
 		re := regexp.MustCompile("^[a-z]+[^ ]*")
 
-		holder := strings.TrimSpace(re.FindString(t))
+		holder := strings.TrimSpace(re.FindString(l))
 		holdingUp[holder] = true
 
 		re = regexp.MustCompile("( [a-z]+)")
 
-		for _, heldee := range re.FindAllString(t, -1) {
+		for _, heldee := range re.FindAllString(l, -1) {
 			heldUp[strings.TrimSpace(heldee)] = true
 		}
 	}
