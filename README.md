@@ -79,6 +79,11 @@ Then the idea was to go through this tree and find the out of balance tower. End
 tower tree into a file and then visually look for the branches that are out of balance until I spotted the
 one that has the wrong weight.
 
+A day later, I want back to the 2nd puzzle and managed to solve it completely by code. The solution is not 100%
+correct, as it is a bit too "eager", as in it fixes the weight by the required weight difference on **all** of
+the towers on the unbalanced branch, but in the end it finds the final unbalanced tower and correctly adjusts
+it's weight to give the correct answer, so I can live with that.
+
 ## Day 8
 
 I was so happy when I read the first puzzle of the day, immediately had a solution in my head using golang

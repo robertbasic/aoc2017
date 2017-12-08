@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"strings"
 	"testing"
 )
@@ -20,7 +21,16 @@ ugml (68) -> gyxo, ebii, jptl
 gyxo (61)
 cntj (57)
 `
-	r := FindBottomTower(strings.NewReader(in))
+
+	scanner := bufio.NewScanner(strings.NewReader(in))
+
+	lines := make([]string, 0)
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	r := FindBottomTower(lines)
 	e := "tknk"
 
 	if r != e {
@@ -49,7 +59,7 @@ func TestBalanceTower(t *testing.T) {
 
 	r := BalanceTower(root, lines)
 
-	e := 778
+	e := 60
 
 	if r != e {
 		t.Errorf("Got %d, expected %d", r, e)

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"regexp"
 	"strconv"
@@ -18,17 +17,16 @@ type tower struct {
 	towers        towers
 }
 
+func (t *tower) adjustWeightBy(w int) {
+	t.weight = t.weight - w
+	t.totalWeight = t.carriedWeight + t.weight
+}
+
 type towers []tower
 
 // Day7 solves the puzzles for day 7
 func Day7() {
 	file, _ := os.Open("./inputs/day7.txt")
-	defer file.Close()
-
-	bottomTower := FindBottomTower(file)
-	fmt.Println("Bottom tower is: ", bottomTower)
-
-	file, _ = os.Open("./inputs/day7.txt")
 	defer file.Close()
 
 	lines := make([]string, 0)
@@ -39,6 +37,9 @@ func Day7() {
 		lines = append(lines, scanner.Text())
 	}
 
+	bottomTower := FindBottomTower(lines)
+	fmt.Println("Bottom tower is: ", bottomTower)
+
 	w := BalanceTower(bottomTower, lines)
 	fmt.Println("Weight required to balance tower", w)
 }
@@ -47,20 +48,36 @@ func Day7() {
 func BalanceTower(root string, subs []string) int {
 	t := buildTower(root, subs)
 
-	findOOBTower(t.towers, 0)
+	t = findOOBTower(t)
 
-	return 0
+	return t.weight
 }
 
-func findOOBTower(ts towers, level int) {
-
-	nl := level + 1
-
-	for _, t := range ts {
-		fmt.Println(strings.Repeat("\t", level), fmt.Sprintf("%d\t%d\t%d", t.weight, t.carriedWeight, t.totalWeight))
-		findOOBTower(t.towers, nl)
+func findOOBTower(t tower) tower {
+	ws := make(map[int]towers)
+	for _, st := range t.towers {
+		ws[st.totalWeight] = append(ws[st.totalWeight], st)
 	}
 
+	var wd int
+	var oobt tower
+
+	for w, t := range ws {
+		if len(ws[w]) == 1 {
+			wd += w
+			oobt = t[0]
+		} else {
+			wd -= w
+		}
+	}
+
+	if wd > 0 {
+		oobt.adjustWeightBy(wd)
+
+		return findOOBTower(oobt)
+	}
+
+	return t
 }
 
 func buildTower(root string, subs []string) tower {
@@ -97,31 +114,27 @@ func getweight(l string) int {
 }
 
 // FindBottomTower finds the bottom tower
-func FindBottomTower(input io.Reader) string {
+func FindBottomTower(lines []string) string {
 	holdingUp := make(map[string]bool)
 	heldUp := make(map[string]bool)
 
-	scanner := bufio.NewScanner(input)
-
-	for scanner.Scan() {
-		t := scanner.Text()
-
-		if t == "" {
+	for _, l := range lines {
+		if l == "" {
 			continue
 		}
 
-		if !strings.Contains(t, "->") {
+		if !strings.Contains(l, "->") {
 			continue
 		}
 
 		re := regexp.MustCompile("^[a-z]+[^ ]*")
 
-		holder := strings.TrimSpace(re.FindString(t))
+		holder := strings.TrimSpace(re.FindString(l))
 		holdingUp[holder] = true
 
 		re = regexp.MustCompile("( [a-z]+)")
 
-		for _, heldee := range re.FindAllString(t, -1) {
+		for _, heldee := range re.FindAllString(l, -1) {
 			heldUp[strings.TrimSpace(heldee)] = true
 		}
 	}
