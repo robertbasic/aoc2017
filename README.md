@@ -78,3 +78,15 @@ has the name, the weight, the carried weight and the total weight.
 Then the idea was to go through this tree and find the out of balance tower. Ended up just dumping the whole
 tower tree into a file and then visually look for the branches that are out of balance until I spotted the
 one that has the wrong weight.
+
+## Day 8
+
+I was so happy when I read the first puzzle of the day, immediately had a solution in my head using golang
+`struct`s, had the solution typed out soon, the test case was passing, ran the program over the puzzle input,
+got the answer, aaaand. It's wrong. WTH?!
+
+Well, I misunderstood the task in the first puzzle. I understood it as to find the largest value ever in the
+registries, but the actual task is to find the largest value at the end of the instructions.
+
+My original solution to puzzle 1 was the solution to puzzle 2, so... Yeah. Read and re-read, and re-read some
+more, folks!
