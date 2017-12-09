@@ -95,3 +95,18 @@ registries, but the actual task is to find the largest value at the end of the i
 
 My original solution to puzzle 1 was the solution to puzzle 2, so... Yeah. Read and re-read, and re-read some
 more, folks!
+
+## Day 9
+
+Going step by step for puzzle 1 was the right way to go:
+
+ - cancel out stuff
+ - remove garbage
+ - count score
+
+Most problem had with cancelling out stuff, because I kept looking back in the input string, instead of in the
+output string.
+
+Turns out going step by step proved to be really helpful for the 2nd puzzle, because I already had the function
+for cancelling out stuff, which doesn't count towards the total garbage removed. The rest was counting the number
+of characters between the opening `<` and closing `>`.
