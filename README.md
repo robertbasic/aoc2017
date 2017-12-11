@@ -110,3 +110,19 @@ output string.
 Turns out going step by step proved to be really helpful for the 2nd puzzle, because I already had the function
 for cancelling out stuff, which doesn't count towards the total garbage removed. The rest was counting the number
 of characters between the opening `<` and closing `>`.
+
+## Day 10
+
+Ugh, this was a tough one. Again. I guess I'm not good with numbers.
+
+For the first puzzle, my first and biggest mistake is that I kept trying to build a new list out of the existing
+list. This ended up in weird bugs as I mixed golang's `append` with index access, as the new list kept growing
+beyond the size of the original list. Eventually I deleted all the code I wrote on Sunday and left it for Monday.
+
+On Monday I started from scratch and instead went with replacing items in the existing list. That quickly fell
+into place once I fixed all the out of index errors:
+
+ - instead of `sublist := list[position : position+length]` I had `sublist := list[position : length]` which was
+   good for the test input, but was broken on the real input,
+ - instead fo `for i := position; i < length; i++ {` I had `for i := position; i < position+length; i++ {` which
+   made `i` go out of bounds pretty quick. Again, was OK for test input, not so OK for real input.
