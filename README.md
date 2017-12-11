@@ -126,3 +126,13 @@ into place once I fixed all the out of index errors:
    good for the test input, but was broken on the real input,
  - instead fo `for i := position; i < length; i++ {` I had `for i := position; i < position+length; i++ {` which
    made `i` go out of bounds pretty quick. Again, was OK for test input, not so OK for real input.
+
+OK, even though the resulting checksum in puzzle 1 was correct, the resulting list was bad. Pure luck I guess that
+the first two elements were what they should have been.
+
+Need to modify a copy of the original list. On Sunday I was making a completely new list, but the real thing is to
+work on the copy of the original list. I should probably look into the real reason why, but I'm so tired from this
+puzzle, to be honest.
+
+Second puzzle was bad because I HAD THE WRONG VARIABLE AS AN ARGUMENT TO `ElvenHashChecksum`!!! After converting the
+lengths to their ASCII counterpart, I ended up still having the original `lengths` variable as an argument. FFS.

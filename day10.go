@@ -13,13 +13,40 @@ func Day10() {
 		list[i] = i
 	}
 
-	cs := ElvenHashChecksum(list, lengths, 1)
+	cs, _ := ElvenHashChecksum(list, lengths, 1)
 	fmt.Println("Checksum is: ", cs)
+
+	var stringlengths = "34,88,2,222,254,93,150,0,199,255,39,32,137,136,1,167"
+	var convertedlengths = make([]int, 0)
+	for _, i := range stringlengths {
+		convertedlengths = append(convertedlengths, int(i))
+	}
+
+	convertedlengths = append(convertedlengths, []int{17, 31, 73, 47, 23}...)
+
+	_, hashedlist := ElvenHashChecksum(list, convertedlengths, 64)
+	dense := DenseHash(hashedlist)
+	fmt.Println("Hashed string is: ", dense)
+}
+
+// DenseHash denses the hashed list
+func DenseHash(list []int) string {
+	var h string
+	for i := 0; i < 256; i += 16 {
+		sublist := list[i : i+16]
+		x := 0
+		for j := 0; j < len(sublist); j++ {
+			x ^= sublist[j]
+		}
+		h += fmt.Sprintf("%02x", x)
+	}
+
+	return h
 }
 
 // ElvenHashChecksum calculates the checksum
 // for the elven hash
-func ElvenHashChecksum(list []int, lengths []int, rounds int) int {
+func ElvenHashChecksum(list []int, lengths []int, rounds int) (int, []int) {
 	var position int
 	var skip int
 	var listlength = len(list)
@@ -33,26 +60,29 @@ func ElvenHashChecksum(list []int, lengths []int, rounds int) int {
 		rounds--
 	}
 
-	return list[0] * list[1]
+	return list[0] * list[1], list
 }
 
 // ElvenHash hashes the list as per elven rules
 func ElvenHash(list []int, listlength int, length int, position int) []int {
-	if length == 1 {
-		return list
+	var newlist = make([]int, listlength)
+	copy(newlist, list)
+
+	if length == 0 || length == 1 {
+		return newlist
 	}
 
 	if position+length <= listlength {
-		sublist := list[position : position+length]
+		sublist := newlist[position : position+length]
 		sublist = ReverseList(sublist)
 
 		var j int
-		for i := position; i < length; i++ {
-			list[i] = sublist[j]
+		for i := position; i < position+length; i++ {
+			newlist[i] = sublist[j]
 			j++
 		}
 	} else {
-		uppersublist := list[position:listlength]
+		uppersublist := newlist[position:listlength]
 		uppersublistlength := len(uppersublist)
 		lowersublist := list[0 : length-uppersublistlength]
 
@@ -64,17 +94,17 @@ func ElvenHash(list []int, listlength int, length int, position int) []int {
 
 		var k int
 		for i, j := position, 0; i < listlength; i, j = i+1, j+1 {
-			list[i] = sublist[j]
+			newlist[i] = sublist[j]
 			k = j
 		}
 
 		for i := 0; i < len(lowersublist); i++ {
 			k++
-			list[i] = sublist[k]
+			newlist[i] = sublist[k]
 		}
 	}
 
-	return list
+	return newlist
 }
 
 // NextPosition calculates the next position
