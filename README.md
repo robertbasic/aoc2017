@@ -142,3 +142,8 @@ lengths to their ASCII counterpart, I ended up still having the original `length
 I tried first to figure out movement on my own... Didn't quite get it. I still have another idea I want to try, but
 until then I solved it using information from [this AMAZING article on hex grids](https://www.redblobgames.com/grids/hexagons/).
 h/t [@lmuzinic](https://github.com/lmuzinic) for finding that article.
+
+## Day 12
+
+Took me a little while to figure out how to recurse here... Biggest problem was that I was setting `seen[to]` in `BuildPointers`
+outside/after the main loop, which meant the `seen` was pretty much useless. Once I fixed that, the rest fell into place.

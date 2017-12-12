@@ -46,6 +46,9 @@ func Day12() {
 
 	c := CountProgramsToZero(input)
 	fmt.Println("Pointing to zero:", c)
+
+	g := CountProgramGroups(input)
+	fmt.Println("Program groups: ", g)
 }
 
 // CountProgramsToZero counts the number of messages
@@ -58,6 +61,32 @@ func CountProgramsToZero(input []string) int {
 	pointers, seen = BuildPointers(programs[0], 0, pointers, seen, programs)
 
 	return len(pointers)
+}
+
+// CountProgramGroups counts the unique program groups
+func CountProgramGroups(input []string) int {
+	programs := BuildPrograms(input)
+
+	groups := make(map[int][]int)
+	seen := make(map[int]bool)
+
+	for from := range programs {
+		groups, seen = BuildGroups(from, programs, groups, seen)
+	}
+
+	return len(groups)
+}
+
+// BuildGroups builds the distinct program groups
+func BuildGroups(from int, programs map[int][]int, groups map[int][]int, seen map[int]bool) (map[int][]int, map[int]bool) {
+	pointers := []int{}
+	pointers, seen = BuildPointers(programs[from], from, pointers, seen, programs)
+
+	if len(pointers) > 0 {
+		groups[from] = pointers
+	}
+
+	return groups, seen
 }
 
 // BuildPointers builds a slice of numbers that point to zero
