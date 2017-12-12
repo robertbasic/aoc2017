@@ -1,5 +1,10 @@
 package main
 
+import (
+	"strconv"
+	"strings"
+)
+
 func main() {
 	//Day1()
 
@@ -21,5 +26,21 @@ func main() {
 
 	// Day10()
 
-	Day11()
+	// Day11()
+
+	Day12()
+}
+
+// StringNumberToInt converts a string number to an int
+func StringNumberToInt(s string) int {
+	i, _ := strconv.Atoi(strings.TrimSpace(s))
+	return i
+}
+
+// MapHasIntKeyBoolVal checks if map[int]bool has key present
+func MapHasIntKeyBoolVal(k int, m map[int]bool) bool {
+	if _, ok := m[k]; ok {
+		return true
+	}
+	return false
 }
