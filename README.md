@@ -136,3 +136,9 @@ puzzle, to be honest.
 
 Second puzzle was bad because I HAD THE WRONG VARIABLE AS AN ARGUMENT TO `ElvenHashChecksum`!!! After converting the
 lengths to their ASCII counterpart, I ended up still having the original `lengths` variable as an argument. FFS.
+
+## Day 11
+
+I tried first to figure out movement on my own... Didn't quite get it. I still have another idea I want to try, but
+until then I solved it using information from [this AMAZING article on hex grids](https://www.redblobgames.com/grids/hexagons/).
+h/t [@lmuzinic](https://github.com/lmuzinic) for finding that article.
