@@ -35,7 +35,7 @@ func Cycle(input []int) int {
 		}
 
 		k := getk(input)
-		fmt.Println(k)
+
 		if _, ok := blocks[k]; ok {
 			break
 		}
