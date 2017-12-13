@@ -9,46 +9,45 @@ import (
 	"strings"
 )
 
-func Day2(logger *log.Logger, folder string) {
+func Day2Opt(logger *log.Logger, folder string) {
 	file, _ := os.Open(folder + "/day2.txt")
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	cs := CheckSum(scanner)
+	scanner1 := bufio.NewScanner(file)
+	scanner2 := bufio.NewScanner(file)
+
+	cs := CheckSumOpt(scanner1)
 	logger.Println("The checksum is: ", cs)
 
-	file, _ = os.Open(folder + "/day2.txt")
-	defer file.Close()
-	scanner = bufio.NewScanner(file)
-	cs = CheckSumDivs(scanner)
-	logger.Println("The divisible checksum is: ", cs)
+	csd := CheckSumDivs(scanner2)
+	logger.Println("The divisible checksum is: ", csd)
 }
 
-func CheckSum(scanner *bufio.Scanner) int {
+func CheckSumOpt(scanner *bufio.Scanner) int {
 	var cs int
 	var d int
 
 	for scanner.Scan() {
-		d = RowDiff(scanner.Text())
+		d = RowDiffOpt(scanner.Text())
 		cs = cs + d
 	}
 
 	return cs
 }
 
-func CheckSumDivs(scanner *bufio.Scanner) int {
+func CheckSumDivsOpt(scanner *bufio.Scanner) int {
 	var cs int
 	var d int
 
 	for scanner.Scan() {
-		d = RowEvenDiv(scanner.Text())
+		d = RowEvenDivOpt(scanner.Text())
 		cs = cs + d
 	}
 
 	return cs
 }
 
-func RowDiff(row string) int {
+func RowDiffOpt(row string) int {
 	var diff int
 	var h int
 	var l int
@@ -69,7 +68,7 @@ func RowDiff(row string) int {
 	return diff
 }
 
-func RowEvenDiv(row string) int {
+func RowEvenDivOpt(row string) int {
 	var div int
 
 	ints := strings.Fields(row)

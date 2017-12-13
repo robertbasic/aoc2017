@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-var difftests = []struct {
+var difftestsopt = []struct {
 	in  string
 	out int
 }{
@@ -17,7 +17,7 @@ var difftests = []struct {
 	{"2 4 6 8", 6},
 }
 
-var divtests = []struct {
+var divtestsopt = []struct {
 	in  string
 	out int
 }{
@@ -29,21 +29,21 @@ var divtests = []struct {
 	{"3 8 6 5", 2},
 }
 
-func TestCheckSum(t *testing.T) {
+func TestCheckSumOpt(t *testing.T) {
 	sample := `5 1 9 5
 	7 5 3
 	2 4 6 8`
 
 	scanner := bufio.NewScanner(strings.NewReader(sample))
 
-	checksum := CheckSum(scanner)
+	checksum := CheckSumOpt(scanner)
 	expected := 18
 	if checksum != expected {
 		t.Errorf("Got %d, expected %d", checksum, expected)
 	}
 }
 
-func TestCheckSumDivs(t *testing.T) {
+func TestCheckSumDivsOpt(t *testing.T) {
 	sample := `5 9 2 8
 	9 4 7 3
 	3 8 6 5`
@@ -57,9 +57,9 @@ func TestCheckSumDivs(t *testing.T) {
 	}
 }
 
-func TestRowDiff(t *testing.T) {
-	for _, tt := range difftests {
-		s := RowDiff(tt.in)
+func TestRowDiffOpt(t *testing.T) {
+	for _, tt := range difftestsopt {
+		s := RowDiffOpt(tt.in)
 
 		if s != int(tt.out) {
 			t.Errorf("Got %d for %s, expected %d", s, tt.in, tt.out)
@@ -67,9 +67,9 @@ func TestRowDiff(t *testing.T) {
 	}
 }
 
-func TestRowEvenDiv(t *testing.T) {
-	for _, tt := range divtests {
-		s := RowEvenDiv(tt.in)
+func TestRowEvenDivOpt(t *testing.T) {
+	for _, tt := range divtestsopt {
+		s := RowEvenDivOpt(tt.in)
 
 		if s != int(tt.out) {
 			t.Errorf("Got %d for %s, expected %d", s, tt.in, tt.out)
@@ -77,7 +77,7 @@ func TestRowEvenDiv(t *testing.T) {
 	}
 }
 
-func BenchmarkDay2(b *testing.B) {
+func BenchmarkDay2Opt(b *testing.B) {
 	l := log.New(ioutil.Discard, "", 0)
 	f := "../inputs"
 	for n := 0; n < b.N; n++ {
