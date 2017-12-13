@@ -173,3 +173,18 @@ number of steps. It probably can be improved further, but it gave me the correct
 a minute, so I'm good with that.
 
 Oh, and notice that the range for depth 1 is always 2. That helps in speeding up things.
+
+@lmuzinic had a good optimization idea - when looking for the delay, no need to everytime a scanner catches us, it's enough
+to be caught only for the first time!
+
+With all this in place the execution is pretty fast:
+
+```
+time ./aoc2017
+Severity is:  1476
+Delay for:  3937334
+
+real    0m3.146s
+user    0m3.139s
+sys     0m0.003s
+```

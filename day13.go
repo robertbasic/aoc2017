@@ -90,6 +90,7 @@ func EvadeDelay(input []string) int {
 
 			if cl.scanner.caught() {
 				caught = true
+				break
 			}
 		}
 
