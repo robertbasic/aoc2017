@@ -23,8 +23,8 @@ func Day1(logger *log.Logger) {
 	sum := Sum(input)
 	half := Half(input)
 
-	log.Println("The sum is: ", sum)
-	log.Println("The half is: ", half)
+	logger.Println("The sum is: ", sum)
+	logger.Println("The half is: ", half)
 }
 
 func Sum(input string) int64 {
