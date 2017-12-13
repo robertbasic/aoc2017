@@ -25,8 +25,9 @@ func main() {
 	f := "./inputs"
 
 	day1.Day1(logger, f)
+	day1.Day1Opt(logger, f)
 
-	day2.Day2(logger)
+	day2.Day2(logger, f)
 
 	day3.Day3(logger)
 
@@ -48,5 +49,7 @@ func main() {
 
 	day12.Day12(logger)
 
-	day13.Day13(logger)
+	day13.Day13(logger, f)
+
+	day13.Day13Opt(logger, f)
 }

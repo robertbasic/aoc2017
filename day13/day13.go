@@ -51,8 +51,8 @@ func (l Layer) sev() int {
 type Layers map[int]Layer
 
 // Day13 solves the puzzles for day 13
-func Day13(logger *log.Logger) {
-	file, _ := os.Open("./inputs/day13.txt")
+func Day13(logger *log.Logger, folder string) {
+	file, _ := os.Open(folder + "/day13.txt")
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -153,12 +153,4 @@ func FirewallLayers(input []string) (Layers, int) {
 func StringNumberToInt(s string) int {
 	i, _ := strconv.Atoi(strings.TrimSpace(s))
 	return i
-}
-
-// MapHasIntKeyBoolVal checks if map[int]bool has key present
-func MapHasIntKeyBoolVal(k int, m map[int]bool) bool {
-	if _, ok := m[k]; ok {
-		return true
-	}
-	return false
 }

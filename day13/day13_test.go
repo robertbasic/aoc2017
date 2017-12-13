@@ -1,6 +1,10 @@
 package day13
 
-import "testing"
+import (
+	"io/ioutil"
+	"log"
+	"testing"
+)
 
 func TestWalkOnFire(t *testing.T) {
 	input := []string{
@@ -33,5 +37,13 @@ func TestEvadeDelay(t *testing.T) {
 
 	if r != e {
 		t.Errorf("Got %d, expected %d", r, e)
+	}
+}
+
+func BenchmarkDay13(b *testing.B) {
+	l := log.New(ioutil.Discard, "", 0)
+	f := "../inputs"
+	for n := 0; n < b.N; n++ {
+		Day13(l, f)
 	}
 }
