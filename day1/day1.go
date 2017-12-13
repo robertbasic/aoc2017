@@ -9,10 +9,10 @@ import (
 )
 
 // Day1 solves the puzzles for day 1
-func Day1(logger *log.Logger) {
+func Day1(logger *log.Logger, folder string) {
 	var input string
 
-	file, err := os.Open("./inputs/day1.txt")
+	file, err := os.Open(folder + "/day1.txt")
 	defer file.Close()
 
 	if err != nil {

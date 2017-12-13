@@ -2,6 +2,8 @@ package day2
 
 import (
 	"bufio"
+	"io/ioutil"
+	"log"
 	"strings"
 	"testing"
 )
@@ -72,5 +74,13 @@ func TestRowEvenDiv(t *testing.T) {
 		if s != int(tt.out) {
 			t.Errorf("Got %d for %s, expected %d", s, tt.in, tt.out)
 		}
+	}
+}
+
+func BenchmarkDay2(b *testing.B) {
+	l := log.New(ioutil.Discard, "", 0)
+
+	for n := 0; n < b.N; n++ {
+		Day2(l)
 	}
 }

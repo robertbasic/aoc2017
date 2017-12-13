@@ -52,8 +52,8 @@ func TestHalf(t *testing.T) {
 
 func BenchmarkDay1(b *testing.B) {
 	l := log.New(ioutil.Discard, "", 0)
-
+	f := "../inputs"
 	for n := 0; n < b.N; n++ {
-		Day1(l)
+		Day1(l, f)
 	}
 }

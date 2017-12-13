@@ -52,8 +52,8 @@ func TestHalfOpt(t *testing.T) {
 
 func BenchmarkDay1Opt(b *testing.B) {
 	l := log.New(ioutil.Discard, "", 0)
-
+	f := "../inputs"
 	for n := 0; n < b.N; n++ {
-		Day1Opt(l)
+		Day1Opt(l, f)
 	}
 }

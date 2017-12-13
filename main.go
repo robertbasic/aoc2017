@@ -22,7 +22,9 @@ import (
 func main() {
 	logger := log.New(os.Stdout, "", 0)
 
-	day1.Day1(logger)
+	f := "./inputs"
+
+	day1.Day1(logger, f)
 
 	day2.Day2(logger)
 

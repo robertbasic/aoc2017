@@ -6,8 +6,8 @@ import (
 )
 
 // Day1Opt solves the puzzles for day 1
-func Day1Opt(logger *log.Logger) {
-	buf, _ := ioutil.ReadFile("./day1.txt")
+func Day1Opt(logger *log.Logger, folder string) {
+	buf, _ := ioutil.ReadFile(folder + "/day1.txt")
 
 	sum := SumOpt(buf)
 	half := HalfOpt(buf)
