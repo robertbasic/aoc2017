@@ -147,3 +147,29 @@ h/t [@lmuzinic](https://github.com/lmuzinic) for finding that article.
 
 Took me a little while to figure out how to recurse here... Biggest problem was that I was setting `seen[to]` in `BuildPointers`
 outside/after the main loop, which meant the `seen` was pretty much useless. Once I fixed that, the rest fell into place.
+
+## Day 13
+
+Biggest challenge today was to come up with a solution for `move` that does not include `for` loops
+and handles the delay correctly. I don't even know how to explain the math behind it:
+
+``` golang
+func (s *Scanner) move(cp int) {
+	r := s.rang - 1
+	d := cp - r
+	div := int(math.Trunc(float64(d / r)))
+	m := int(math.Mod(float64(d), float64(r)))
+
+	if math.Mod(float64(div), 2) == 0 {
+		s.position = r - m
+	} else {
+		s.position = m
+	}
+}
+```
+
+Boils down to how many rounds does a scanner do moving around in it's range for the given `cp` 
+number of steps. It probably can be improved further, but it gave me the correct answer in under
+a minute, so I'm good with that.
+
+Oh, and notice that the range for depth 1 is always 2. That helps in speeding up things.

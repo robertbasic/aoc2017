@@ -28,7 +28,9 @@ func main() {
 
 	// Day11()
 
-	Day12()
+	// Day12()
+
+	Day13()
 }
 
 // StringNumberToInt converts a string number to an int
