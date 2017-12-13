@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"math"
 	"os"
 	"strings"
@@ -50,7 +50,7 @@ func (l Layer) sev() int {
 type Layers map[int]Layer
 
 // Day13 solves the puzzles for day 13
-func Day13() {
+func Day13(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day13.txt")
 	defer file.Close()
 
@@ -63,10 +63,10 @@ func Day13() {
 	}
 
 	sev := WalkOnFire(input)
-	fmt.Println("Severity is: ", sev)
+	logger.Println("Severity is: ", sev)
 
 	delay := EvadeDelay(input)
-	fmt.Println("Delay for: ", delay)
+	logger.Println("Delay for: ", delay)
 }
 
 // EvadeDelay calculates the delay required to evade all scanners

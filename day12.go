@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strings"
 )
@@ -32,7 +32,7 @@ func (p *Program) parse(in string) {
 }
 
 // Day12 solves the puzzles for day 12
-func Day12() {
+func Day12(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day12.txt")
 	defer file.Close()
 
@@ -45,10 +45,10 @@ func Day12() {
 	}
 
 	c := CountProgramsToZero(input)
-	fmt.Println("Pointing to zero:", c)
+	logger.Println("Pointing to zero:", c)
 
 	g := CountProgramGroups(input)
-	fmt.Println("Program groups: ", g)
+	logger.Println("Program groups: ", g)
 }
 
 // CountProgramsToZero counts the number of messages

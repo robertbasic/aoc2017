@@ -2,12 +2,13 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 )
 
-func Day1() {
+// Day1 solves the puzzles for day 1
+func Day1(logger *log.Logger) {
 	var input string
 
 	file, _ := os.Open("./inputs/day1.txt")
@@ -21,8 +22,9 @@ func Day1() {
 
 	sum := Sum(input)
 	half := Half(input)
-	fmt.Println("The sum is: ", sum)
-	fmt.Println("The half is: ", half)
+
+	logger.Println("The sum is: ", sum)
+	logger.Println("The half is: ", half)
 }
 
 func Sum(input string) int64 {

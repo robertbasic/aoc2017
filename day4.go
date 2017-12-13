@@ -2,20 +2,20 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"sort"
 	"strings"
 )
 
 // Day4 solves the puzzles for day 4
-func Day4() {
+func Day4(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day4.txt")
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	n, h := NumberOfValidPassphrases(scanner)
-	fmt.Println("Number of valid passphrases: ", n)
-	fmt.Println("Number of valid hardened passphrases: ", h)
+	logger.Println("Number of valid passphrases: ", n)
+	logger.Println("Number of valid hardened passphrases: ", h)
 }
 
 // NumberOfValidPassphrases finds the number of valid

@@ -2,26 +2,26 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
-func Day2() {
+func Day2(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day2.txt")
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	cs := CheckSum(scanner)
-	fmt.Println("The checksum is: ", cs)
+	logger.Println("The checksum is: ", cs)
 
 	file, _ = os.Open("./inputs/day2.txt")
 	defer file.Close()
 	scanner = bufio.NewScanner(file)
 	cs = CheckSumDivs(scanner)
-	fmt.Println("The divisible checksum is: ", cs)
+	logger.Println("The divisible checksum is: ", cs)
 }
 
 func CheckSum(scanner *bufio.Scanner) int {
