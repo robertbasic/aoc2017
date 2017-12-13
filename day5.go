@@ -2,13 +2,13 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 )
 
 // Day5 solves the puzzles for day 5
-func Day5() {
+func Day5(logger *log.Logger) {
 	instructions := make([]int, 0)
 	ci := make([]int, 0)
 
@@ -25,11 +25,11 @@ func Day5() {
 
 	j := Jumps(instructions)
 
-	fmt.Println("Number of jumps: ", j)
+	logger.Println("Number of jumps: ", j)
 
 	cj := CrazyJumps(ci)
 
-	fmt.Println("Number of crazy jumps: ", cj)
+	logger.Println("Number of crazy jumps: ", cj)
 }
 
 // Jumps finds the number of jumps

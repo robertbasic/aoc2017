@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -25,7 +25,7 @@ func (t *tower) adjustWeightBy(w int) {
 type towers []tower
 
 // Day7 solves the puzzles for day 7
-func Day7() {
+func Day7(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day7.txt")
 	defer file.Close()
 
@@ -38,10 +38,10 @@ func Day7() {
 	}
 
 	bottomTower := FindBottomTower(lines)
-	fmt.Println("Bottom tower is: ", bottomTower)
+	logger.Println("Bottom tower is: ", bottomTower)
 
 	w := BalanceTower(bottomTower, lines)
-	fmt.Println("Weight required to balance tower", w)
+	logger.Println("Weight required to balance tower", w)
 }
 
 // BalanceTower finds the weight required to balance the tower

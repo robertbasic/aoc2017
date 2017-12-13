@@ -1,14 +1,12 @@
 package main
 
-import (
-	"fmt"
-)
+import "log"
 
 //Day3 solves the puzzles for day 3
-func Day3() {
+func Day3(logger *log.Logger) {
 	s := Steps(368078)
 	//s := Steps(1024)
-	fmt.Println("Steps required: ", s)
+	logger.Println("Steps required: ", s)
 }
 
 // Steps finds the number of steps required to

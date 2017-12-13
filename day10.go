@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 )
 
 // Day10 solves the puzzles for day 10
-func Day10() {
+func Day10(logger *log.Logger) {
 	var list = make([]int, 256)
 	var lengths = []int{34, 88, 2, 222, 254, 93, 150, 0, 199, 255, 39, 32, 137, 136, 1, 167}
 	for i := 0; i < 256; i++ {
@@ -14,7 +15,7 @@ func Day10() {
 	}
 
 	cs, _ := ElvenHashChecksum(list, lengths, 1)
-	fmt.Println("Checksum is: ", cs)
+	logger.Println("Checksum is: ", cs)
 
 	var stringlengths = "34,88,2,222,254,93,150,0,199,255,39,32,137,136,1,167"
 	var convertedlengths = make([]int, 0)
@@ -26,7 +27,7 @@ func Day10() {
 
 	_, hashedlist := ElvenHashChecksum(list, convertedlengths, 64)
 	dense := DenseHash(hashedlist)
-	fmt.Println("Hashed string is: ", dense)
+	logger.Println("Hashed string is: ", dense)
 }
 
 // DenseHash denses the hashed list

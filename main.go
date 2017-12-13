@@ -1,36 +1,40 @@
 package main
 
 import (
+	"log"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	//Day1()
+	logger := log.New(os.Stdout, "", 0)
 
-	//Day2()
+	Day1(logger)
 
-	//Day3()
+	Day2(logger)
 
-	// Day4()
+	Day3(logger)
 
-	// Day5()
+	Day4(logger)
 
-	// Day6()
+	Day5(logger)
 
-	// Day7()
+	Day6(logger)
 
-	// Day8()
+	Day7(logger)
 
-	// Day9()
+	Day8(logger)
 
-	// Day10()
+	Day9(logger)
 
-	// Day11()
+	Day10(logger)
 
-	// Day12()
+	Day11(logger)
 
-	Day13()
+	Day12(logger)
+
+	Day13(logger)
 }
 
 // StringNumberToInt converts a string number to an int

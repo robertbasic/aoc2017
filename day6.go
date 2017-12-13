@@ -3,14 +3,15 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"strconv"
 )
 
 // Day6 solves the day 6 puzzles
-func Day6() {
+func Day6(logger *log.Logger) {
 	i := [16]int{4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5}
 	c := Cycle(i[:])
-	fmt.Println("Cycles: ", c)
+	logger.Println("Cycles: ", c)
 }
 
 // Cycle finds the number of cycles required

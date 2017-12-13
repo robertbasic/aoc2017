@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -57,14 +57,14 @@ type instruction struct {
 }
 
 // Day8 solves the puzzles for day 8
-func Day8() {
+func Day8(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day8.txt")
 	defer file.Close()
 
 	i, ie := FindLargestAtEnd(file)
 
-	fmt.Println("Largest value in registries at the end: ", i)
-	fmt.Println("Largest value in registries ever: ", ie)
+	logger.Println("Largest value in registries at the end: ", i)
+	logger.Println("Largest value in registries ever: ", ie)
 }
 
 // FindLargestAtEnd finds the largest value that

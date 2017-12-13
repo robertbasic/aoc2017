@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"math"
 	"os"
 	"sort"
@@ -58,7 +58,7 @@ func (p *Position) move(d string) {
 }
 
 // Day11 solves the puzzles for day 11
-func Day11() {
+func Day11(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day11.txt")
 	defer file.Close()
 
@@ -74,8 +74,8 @@ func Day11() {
 
 	m := HexMove(&p, line)
 
-	fmt.Println("Steps away: ", p.calc())
-	fmt.Println("Got to furthest: ", m)
+	logger.Println("Steps away: ", p.calc())
+	logger.Println("Got to furthest: ", m)
 }
 
 // HexMove moves the position around in a hex grid

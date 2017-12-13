@@ -2,13 +2,13 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strings"
 )
 
 // Day9 solves the puzzles for day 9
-func Day9() {
+func Day9(logger *log.Logger) {
 	file, _ := os.Open("./inputs/day9.txt")
 	defer file.Close()
 
@@ -23,10 +23,10 @@ func Day9() {
 	cin := Cancelled(in)
 
 	ts := TotalScore(RemoveGarbage(cin))
-	fmt.Println("Total score is: ", ts)
+	logger.Println("Total score is: ", ts)
 
 	rg := CountRemovedGarbage(cin)
-	fmt.Println("Total removed garbage is: ", rg)
+	logger.Println("Total removed garbage is: ", rg)
 }
 
 // CountRemovedGarbage counts the number of chars removed
