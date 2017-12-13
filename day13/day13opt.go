@@ -16,15 +16,8 @@ type ScannerOpt struct {
 }
 
 func (s ScannerOpt) positionAtZero(steps int) bool {
-	r := s.rang - 1
-	d := steps - r
-	div := int(math.Trunc(float64(d / r)))
-	m := int(math.Mod(float64(d), float64(r)))
-
-	if math.Mod(float64(div), 2) == 0 {
-		return r-m == 0
-	}
-
+	r := float64(s.rang*2 - 2)
+	m := int(math.Mod(float64(steps), r))
 	return m == 0
 }
 
@@ -44,7 +37,7 @@ func Day13Opt(logger *log.Logger, folder string) {
 
 // EvadeDelayOpt calculates the delay required to evade all scanners
 func EvadeDelayOpt(layers map[int]ScannerOpt, md int) int {
-	var delay = 0
+	var delay = 2
 
 	for {
 		var cd = -1
