@@ -8,6 +8,7 @@ I have no idea what am I doing.
 
 I'm stealing this idea of notes from [Luka](https://github.com/lmuzinic).
 
+After day 13 I went back to day 1 and started optimizing the code.
 
 ## Day 1
 
@@ -18,6 +19,18 @@ On day 2 I rewrote day 1 to be a bit more nicer to read and added tests for it.
 I also moved to reading the day inputs from files, using [`bufio.NewScanner`](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day1.go#L16).
 
 Coming from PHP, juggling types around is [hard yo](https://github.com/robertbasic/aoc2017/blob/f6c810294e331c688c5401e0d15e3b4c7004c1d0/day1.go#L47-L50)! That's what I get for not understanding Go's type system!
+
+### Optimizations
+
+ - using `ioutil.ReadFile` to read in the entire file instead of openning it, scanning with a scanner, creating an input var, passing that around.
+ - moved away from strings and converting to integers to do the sum calculations to bytes. Subtracting 48 from the byte to get the actual integer value.
+ - benchmarking reports no difference between using `int`s and `int64`, so I left those as `int64`
+ - I also see no difference between looping over the `input` bytes with `range` or with a "regular" `for` loop.
+
+```
+BenchmarkDay1-4      	   10000	    149501 ns/op	   22660 B/op	    4086 allocs/op
+BenchmarkDay1Opt-4   	  200000	      9665 ns/op	    3104 B/op	      10 allocs/op
+```
 
 ## Day 2
 

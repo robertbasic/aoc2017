@@ -3,50 +3,53 @@ package main
 import (
 	"log"
 	"os"
-	"strconv"
-	"strings"
+
+	"github.com/robertbasic/aoc2017/day1"
+	"github.com/robertbasic/aoc2017/day10"
+	"github.com/robertbasic/aoc2017/day11"
+	"github.com/robertbasic/aoc2017/day12"
+	"github.com/robertbasic/aoc2017/day13"
+	"github.com/robertbasic/aoc2017/day2"
+	"github.com/robertbasic/aoc2017/day3"
+	"github.com/robertbasic/aoc2017/day4"
+	"github.com/robertbasic/aoc2017/day5"
+	"github.com/robertbasic/aoc2017/day6"
+	"github.com/robertbasic/aoc2017/day7"
+	"github.com/robertbasic/aoc2017/day8"
+	"github.com/robertbasic/aoc2017/day9"
 )
 
 func main() {
 	logger := log.New(os.Stdout, "", 0)
 
-	Day1(logger)
+	f := "./inputs"
 
-	Day2(logger)
+	day1.Day1(logger, f)
+	day1.Day1Opt(logger, f)
 
-	Day3(logger)
+	day2.Day2(logger, f)
 
-	Day4(logger)
+	day3.Day3(logger)
 
-	Day5(logger)
+	day4.Day4(logger)
 
-	Day6(logger)
+	day5.Day5(logger)
 
-	Day7(logger)
+	day6.Day6(logger)
 
-	Day8(logger)
+	day7.Day7(logger)
 
-	Day9(logger)
+	day8.Day8(logger)
 
-	Day10(logger)
+	day9.Day9(logger)
 
-	Day11(logger)
+	day10.Day10(logger)
 
-	Day12(logger)
+	day11.Day11(logger)
 
-	Day13(logger)
-}
+	day12.Day12(logger)
 
-// StringNumberToInt converts a string number to an int
-func StringNumberToInt(s string) int {
-	i, _ := strconv.Atoi(strings.TrimSpace(s))
-	return i
-}
+	day13.Day13(logger, f)
 
-// MapHasIntKeyBoolVal checks if map[int]bool has key present
-func MapHasIntKeyBoolVal(k int, m map[int]bool) bool {
-	if _, ok := m[k]; ok {
-		return true
-	}
-	return false
+	day13.Day13Opt(logger, f)
 }
