@@ -201,3 +201,7 @@ real    0m3.146s
 user    0m3.139s
 sys     0m0.003s
 ```
+
+## Day 14
+
+Holy shit is the description of today's puzzle confusing. I need to go back and rewrite day 10 to make day 14 nicer.
