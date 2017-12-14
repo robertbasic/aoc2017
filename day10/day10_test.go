@@ -1,6 +1,10 @@
 package day10
 
-import "testing"
+import (
+	"io/ioutil"
+	"log"
+	"testing"
+)
 
 func TestElvenHashChecksum(t *testing.T) {
 	var list = []int{0, 1, 2, 3, 4}
@@ -12,5 +16,12 @@ func TestElvenHashChecksum(t *testing.T) {
 
 	if r != e {
 		t.Errorf("Got %d, expected %d", r, e)
+	}
+}
+
+func BenchmarkDay10(b *testing.B) {
+	l := log.New(ioutil.Discard, "", 0)
+	for n := 0; n < b.N; n++ {
+		Day10(l)
 	}
 }
