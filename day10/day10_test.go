@@ -1,8 +1,6 @@
 package day10
 
 import (
-	"io/ioutil"
-	"log"
 	"testing"
 )
 
@@ -30,9 +28,9 @@ func TestElvenHashChecksum(t *testing.T) {
 	}
 }
 
-func BenchmarkDay10(b *testing.B) {
-	l := log.New(ioutil.Discard, "", 0)
+func BenchmarkElvenKnottedHash(b *testing.B) {
+	i := "34,88,2,222,254,93,150,0,199,255,39,32,137,136,1,167"
 	for n := 0; n < b.N; n++ {
-		Day10(l)
+		ElvenKnottedHash(i)
 	}
 }
