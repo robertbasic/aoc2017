@@ -7,10 +7,10 @@ import (
 )
 
 func TestElvenHashChecksum(t *testing.T) {
-	var list = []int{0, 1, 2, 3, 4}
+	var listSize = 5
 	var lengths = []int{3, 4, 1, 5}
 
-	r, _ := ElvenHashChecksum(list, lengths, 1)
+	r := ElvenHashChecksum(listSize, lengths, 1)
 
 	e := 12
 
