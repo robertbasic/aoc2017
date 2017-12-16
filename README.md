@@ -150,6 +150,9 @@ puzzle, to be honest.
 Second puzzle was bad because I HAD THE WRONG VARIABLE AS AN ARGUMENT TO `ElvenHashChecksum`!!! After converting the
 lengths to their ASCII counterpart, I ended up still having the original `lengths` variable as an argument. FFS.
 
+**NOTE**: On what is technically day 15 I was traveling to Zagreb, so in that time I rewrote day 10 to be more
+manageable, easier to reuse for day 14.
+
 ## Day 11
 
 I tried first to figure out movement on my own... Didn't quite get it. I still have another idea I want to try, but
