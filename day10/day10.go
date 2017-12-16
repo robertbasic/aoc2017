@@ -6,34 +6,44 @@ import (
 	"math"
 )
 
-// Day10 solves the puzzles for day 10
+// Day10 solves the day 10 puzzles
 func Day10(logger *log.Logger) {
-	var list = make([]int, 256)
 	var lengths = []int{34, 88, 2, 222, 254, 93, 150, 0, 199, 255, 39, 32, 137, 136, 1, 167}
-	for i := 0; i < 256; i++ {
-		list[i] = i
-	}
+	checksum := elvenHashChecksum(256, lengths, 1)
+	logger.Println("Checksum is: ", checksum)
 
-	cs, _ := ElvenHashChecksum(list, lengths, 1)
-	logger.Println("Checksum is: ", cs)
+	input := "34,88,2,222,254,93,150,0,199,255,39,32,137,136,1,167"
+	hash := ElvenKnottedHash(input)
 
-	var stringlengths = "34,88,2,222,254,93,150,0,199,255,39,32,137,136,1,167"
+	logger.Println("Hash of the elven knot is: ", hash)
+}
+
+// ElvenKnottedHash hashes the input as per the elven rules
+func ElvenKnottedHash(input string) string {
 	var convertedlengths = make([]int, 0)
-	for _, i := range stringlengths {
+	for _, i := range input {
 		convertedlengths = append(convertedlengths, int(i))
 	}
 
 	convertedlengths = append(convertedlengths, []int{17, 31, 73, 47, 23}...)
 
-	_, hashedlist := ElvenHashChecksum(list, convertedlengths, 64)
-	dense := DenseHash(hashedlist)
-	logger.Println("Hashed string is: ", dense)
+	ls := 256
+
+	list := elvenHashList(ls, convertedlengths, 64)
+
+	return denseHash(list, ls)
 }
 
-// DenseHash denses the hashed list
-func DenseHash(list []int) string {
+// elvenHashChecksum calculates the checksum
+// for the elven hash
+func elvenHashChecksum(listSize int, lengths []int, rounds int) int {
+	list := elvenHashList(listSize, lengths, rounds)
+	return list[0] * list[1]
+}
+
+func denseHash(list []int, ls int) string {
 	var h string
-	for i := 0; i < 256; i += 16 {
+	for i := 0; i < ls; i += 16 {
 		sublist := list[i : i+16]
 		x := 0
 		for j := 0; j < len(sublist); j++ {
@@ -45,27 +55,24 @@ func DenseHash(list []int) string {
 	return h
 }
 
-// ElvenHashChecksum calculates the checksum
-// for the elven hash
-func ElvenHashChecksum(list []int, lengths []int, rounds int) (int, []int) {
+func elvenHashList(listSize int, lengths []int, rounds int) []int {
 	var position int
 	var skip int
-	var listlength = len(list)
+	list := makeList(listSize)
 
 	for rounds > 0 {
 		for _, length := range lengths {
-			list = ElvenHash(list, listlength, length, position)
-			position = NextPosition(position, listlength, skip+length)
+			list = elvenHash(list, listSize, length, position)
+			position = nextPosition(position, listSize, skip+length)
 			skip++
 		}
 		rounds--
 	}
 
-	return list[0] * list[1], list
+	return list
 }
 
-// ElvenHash hashes the list as per elven rules
-func ElvenHash(list []int, listlength int, length int, position int) []int {
+func elvenHash(list []int, listlength int, length int, position int) []int {
 	var newlist = make([]int, listlength)
 	copy(newlist, list)
 
@@ -75,7 +82,7 @@ func ElvenHash(list []int, listlength int, length int, position int) []int {
 
 	if position+length <= listlength {
 		sublist := newlist[position : position+length]
-		sublist = ReverseList(sublist)
+		sublist = reverseList(sublist)
 
 		var j int
 		for i := position; i < position+length; i++ {
@@ -91,7 +98,7 @@ func ElvenHash(list []int, listlength int, length int, position int) []int {
 		sublist = append(sublist, uppersublist...)
 		sublist = append(sublist, lowersublist...)
 
-		sublist = ReverseList(sublist)
+		sublist = reverseList(sublist)
 
 		var k int
 		for i, j := position, 0; i < listlength; i, j = i+1, j+1 {
@@ -108,8 +115,15 @@ func ElvenHash(list []int, listlength int, length int, position int) []int {
 	return newlist
 }
 
-// NextPosition calculates the next position
-func NextPosition(position int, listlength int, steps int) int {
+func makeList(ls int) []int {
+	var l = make([]int, ls)
+	for i := 0; i < ls; i++ {
+		l[i] = i
+	}
+	return l
+}
+
+func nextPosition(position int, listlength int, steps int) int {
 	m := int(math.Mod(float64(steps), float64(listlength)))
 
 	if position+m >= listlength {
@@ -119,8 +133,7 @@ func NextPosition(position int, listlength int, steps int) int {
 	return position + m
 }
 
-// ReverseList reverses a list
-func ReverseList(list []int) []int {
+func reverseList(list []int) []int {
 	var reversed = make([]int, len(list))
 	var j = len(list) - 1
 
