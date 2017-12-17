@@ -230,3 +230,7 @@ binrows := []string{
 	"01111111",
 }
 ```
+
+## Day 15
+
+Pretty much bruteforced myself out of today's puzzles. Also, solved on day 17.

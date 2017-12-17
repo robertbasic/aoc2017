@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/robertbasic/aoc2017/day14"
+	"github.com/robertbasic/aoc2017/day15"
 )
 
 func main() {
@@ -41,5 +41,7 @@ func main() {
 
 	// day13.Day13Opt(logger, f)
 
-	day14.Day14(logger)
+	// day14.Day14(logger)
+
+	day15.Day15(logger)
 }
