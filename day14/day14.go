@@ -3,23 +3,95 @@ package day14
 import (
 	"encoding/hex"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/robertbasic/aoc2017/day10"
 )
 
 // Day14 solves the puzzles for day 14
-func Day14() {
+func Day14(logger *log.Logger) {
 	var bits int
+	var binrows = make([]string, 128)
 	for i := 0; i < 128; i++ {
-		h := knotHash("amgozmfv-" + strconv.Itoa(i))
+		h := day10.ElvenKnottedHash("amgozmfv-" + strconv.Itoa(i))
 		bs := htob(h)
 
 		for _, b := range bs {
-			bits += countOnes(fmt.Sprintf("%08b\n", b))
+			binrow := fmt.Sprintf("%08b", b)
+
+			bits += countOnes(binrow)
+
+			binrows[i] += binrow
 		}
 	}
-	fmt.Println(bits)
+
+	g := CountGroups(binrows)
+
+	fmt.Println("Number of used squares: ", bits)
+	fmt.Println("Number of groups: ", g)
+}
+
+func CountGroups(rows []string) int {
+	groups := buildGroups(rows)
+
+	var mg int
+	for _, g := range groups {
+		if g > mg {
+			mg = g
+		}
+	}
+
+	return mg
+}
+
+func buildGroups(rows []string) map[string]int {
+	var cg int
+	var group = make(map[string]int)
+
+	for i, row := range rows {
+		for j, b := range row {
+			if b != 49 {
+				continue
+			}
+
+			if _, ok := group[k(i, j)]; ok {
+				continue
+			}
+
+			cg++
+			cg, group = visit(i, j, rows, cg, group)
+		}
+	}
+
+	return group
+}
+
+func visit(i int, j int, rows []string, cg int, group map[string]int) (int, map[string]int) {
+	if i < 0 || j < 0 || i > len(rows)-1 || j > len(rows)-1 {
+		return cg, group
+	}
+
+	if rows[i][j] != 49 {
+		return cg, group
+	}
+
+	if g, ok := group[k(i, j)]; ok {
+		return g, group
+	}
+
+	group[k(i, j)] = cg
+
+	cg, group = visit(i, j+1, rows, cg, group)
+	cg, group = visit(i+1, j, rows, cg, group)
+	cg, group = visit(i, j-1, rows, cg, group)
+	cg, group = visit(i-1, j, rows, cg, group)
+
+	return cg, group
+}
+
+func k(i int, j int) string {
+	return fmt.Sprintf("%d:%d", i, j)
 }
 
 func countOnes(input string) int {
@@ -41,22 +113,4 @@ func htob(h string) []byte {
 	hex.Decode(dst, src)
 
 	return dst
-}
-
-func knotHash(input string) string {
-	var list = make([]int, 256)
-	for l := 0; l < 256; l++ {
-		list[l] = l
-	}
-
-	var lengths = make([]int, 0)
-	for _, c := range input {
-		lengths = append(lengths, int(c))
-	}
-
-	lengths = append(lengths, []int{17, 31, 73, 47, 23}...)
-
-	_, hashedlist := day10.ElvenHashChecksum(list, lengths, 64)
-
-	return day10.DenseHash(hashedlist)
 }

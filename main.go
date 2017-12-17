@@ -1,11 +1,14 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/robertbasic/aoc2017/day14"
 )
 
 func main() {
-	// logger := log.New(os.Stdout, "", 0)
+	logger := log.New(os.Stdout, "", 0)
 
 	// f := "./inputs"
 
@@ -38,5 +41,5 @@ func main() {
 
 	// day13.Day13Opt(logger, f)
 
-	day14.Day14()
+	day14.Day14(logger)
 }

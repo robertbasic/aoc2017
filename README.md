@@ -208,3 +208,25 @@ sys     0m0.003s
 ## Day 14
 
 Holy shit is the description of today's puzzle confusing. I need to go back and rewrite day 10 to make day 14 nicer.
+
+3 days later... (OK, I was traveling on days 15 and 16). After rewriting the day 10 puzzles, the first puzzle for day 14
+was easy. Apparently day 12 can be used for day 14 puzzle 2, but I ended up writing a new solution for the 2nd puzzle
+anyway.
+
+For puzzle 2 my first attempt consisted of just simply going one step back and one step up from the current position. That
+didn't work, gave a number to high. Then I realised I was missing an edge case of one step forward one step up. But then
+that made me realise I was missing an even larger edge case. I ended up drawing a 8x8 grid of ones and zeros that covers
+all the possible cases (it's not that hard really), and using that grid solving that puzzle became a lot easier:
+
+``` golang
+binrows := []string{
+	"01001011",
+	"11011011",
+	"01010001",
+	"01110011",
+	"00000110",
+	"11100111",
+	"00100000",
+	"01111111",
+}
+```
