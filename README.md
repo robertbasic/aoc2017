@@ -234,3 +234,15 @@ binrows := []string{
 ## Day 15
 
 Pretty much bruteforced myself out of today's puzzles. Also, solved on day 17.
+
+## Day 18
+
+Lagging behind with days 16 and 17, so jumping straight to day 18.
+
+Even though I'd like to say the first puzzle was easy, I won't. First, I don't like to say "easy" or "simple" about
+any programming task... Second, I made some silly mistakes.
+
+Biggest mistake was with `jgz` is that I tested against the `reg`, and then jumped by it too.
+
+Then I learned that to `break` multiple levels in Go I need to use labels. `break` breaks only one level, but to break
+2 or more levels, we need to set labels and then `break foo` to get to the foo label.
