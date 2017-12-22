@@ -235,6 +235,11 @@ binrows := []string{
 
 Pretty much bruteforced myself out of today's puzzles. Also, solved on day 17.
 
+## Day 16
+
+Oh, this was fun! The programs rearrange themselves to a..p after 60 iterations, so I only
+had to do 1billion mod 60 = 40 iterations to find the correct answer for the 2nd puzzle.
+
 ## Day 18
 
 Lagging behind with days 16 and 17, so jumping straight to day 18.
