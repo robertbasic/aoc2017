@@ -240,6 +240,25 @@ Pretty much bruteforced myself out of today's puzzles. Also, solved on day 17.
 Oh, this was fun! The programs rearrange themselves to a..p after 60 iterations, so I only
 had to do 1billion mod 60 = 40 iterations to find the correct answer for the 2nd puzzle.
 
+## Day 17
+
+Puzzle 1 taught me this weird slice trick, which I think I understand
+
+``` golang
+func insertAt(s []int, p int, v int) []int {
+	s = append(s, 0)
+	copy(s[p+1:], s[p:])
+	s[p] = v
+	return s
+}
+```
+
+It appends a single zero to the end, copies from the position `p` to the end to the position `p+1` to the end, and
+sets the value at the position `p` to be `v`. All this while leaving anything below position `p` intact.
+
+Puzzle 2 boils down to track the number that would be added after the zero number, which is always at zero position.
+Took me a while to figure that out, but here we are!
+
 ## Day 18
 
 Lagging behind with days 16 and 17, so jumping straight to day 18.

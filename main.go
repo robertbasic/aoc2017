@@ -1,15 +1,10 @@
 package main
 
 import (
-	"log"
-	"os"
-
-	"github.com/robertbasic/aoc2017/day18"
+	"github.com/robertbasic/aoc2017/day17"
 )
 
 func main() {
-	logger := log.New(os.Stdout, "", 0)
-
 	// f := "./inputs"
 
 	// day1.Day1(logger, f)
@@ -45,5 +40,9 @@ func main() {
 
 	// day15.Day15(logger)
 
-	day18.Day18(logger)
+	//day16.Day16(f)
+
+	day17.Day17()
+
+	//day18.Day18(logger)
 }
