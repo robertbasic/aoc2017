@@ -270,3 +270,7 @@ Biggest mistake was with `jgz` is that I tested against the `reg`, and then jump
 
 Then I learned that to `break` multiple levels in Go I need to use labels. `break` breaks only one level, but to break
 2 or more levels, we need to set labels and then `break foo` to get to the foo label.
+
+## Day 19
+
+Oh man do I miss `isset` in go. Other than that pretty much smooth sailing for day 19 puzzles.
