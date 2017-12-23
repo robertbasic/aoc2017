@@ -2,8 +2,8 @@ package day19
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 )
@@ -20,8 +20,8 @@ func Day19(folder string) {
 	file, _ := os.Open(folder + "/day19.txt")
 
 	l, s := walk(file, 200)
-	fmt.Println("The letters are: ", l)
-	fmt.Println("Number of steps: ", s)
+	log.Println("The letters are: ", l)
+	log.Println("Number of steps: ", s)
 }
 
 func walk(tubes io.Reader, size int) (string, int) {
