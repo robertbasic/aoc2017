@@ -79,7 +79,7 @@ func closest(particles []Particle) Particle {
 	pch := make(chan Particle, len(particles))
 
 	for _, particle := range particles {
-		go move(particle, 10000, pch, &wg)
+		go move(particle, 285, pch, &wg)
 	}
 
 	wg.Wait()

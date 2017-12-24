@@ -291,3 +291,5 @@ particles will be read out to find the closest one.
 The one thing I don't understand yet is why I had to make the `pch` channel a buffered one? There has to be a way to send
 a particle to the channel once it's done and immediately read it back in a different goroutine and compare there to the
 base particle... A thing to figure out some other day.
+
+P.S.: With some divide and conquer approach, the minimum number of iterations to find the actual closest one is 285.
