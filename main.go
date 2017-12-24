@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/robertbasic/aoc2017/day18"
+	"github.com/robertbasic/aoc2017/day20"
 )
 
 func main() {
-	//f := "./inputs"
+	f := "./inputs"
 
 	// day1.Day1(logger, f)
 	// day1.Day1Opt(logger, f)
@@ -44,7 +44,9 @@ func main() {
 
 	//day17.Day17()
 
-	day18.Day18()
+	//day18.Day18()
 
 	//day19.Day19(f)
+
+	day20.Day20(f)
 }

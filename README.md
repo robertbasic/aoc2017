@@ -279,3 +279,15 @@ current program is a `rcv` instruction, break out as we're done.
 ## Day 19
 
 Oh man do I miss `isset` in go. Other than that pretty much smooth sailing for day 19 puzzles.
+
+## Day 20
+
+Goroutines! I finally managed to use them!
+
+Puzzle 1 has all the particles flying indefinitely, so given enough time eventually one particle will be the closest one.
+I have all the particles fly concurrently for 10000 iterations and then send them to a buffered channel from which the
+particles will be read out to find the closest one.
+
+The one thing I don't understand yet is why I had to make the `pch` channel a buffered one? There has to be a way to send
+a particle to the channel once it's done and immediately read it back in a different goroutine and compare there to the
+base particle... A thing to figure out some other day.
