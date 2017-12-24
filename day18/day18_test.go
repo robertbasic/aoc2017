@@ -18,7 +18,7 @@ func TestRecoverSound(t *testing.T) {
 
 	r := RecoverSound(instructions)
 
-	e := 4
+	e := int64(4)
 
 	if r != e {
 		t.Errorf("Got %d, expected %d", r, e)
@@ -36,5 +36,11 @@ func TestSendReceive(t *testing.T) {
 		"rcv d",
 	}
 
-	SendReceive(instructions)
+	r := SendReceive(instructions)
+
+	e := 3
+
+	if r != e {
+		t.Errorf("Got %d, expected %d", r, e)
+	}
 }

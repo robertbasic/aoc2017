@@ -271,6 +271,11 @@ Biggest mistake was with `jgz` is that I tested against the `reg`, and then jump
 Then I learned that to `break` multiple levels in Go I need to use labels. `break` breaks only one level, but to break
 2 or more levels, we need to set labels and then `break foo` to get to the foo label.
 
+For puzzle 2 on this day I tried for far too long to find the solution by using goroutines and channels. I failed
+miserably. Finally I went the good ol' run-the-programs-one-at-a-time way, using an empty queue as a sign to "interrupt"
+and jump to the other program for execution. Once both programs have empty queues and the last instruction is for the
+current program is a `rcv` instruction, break out as we're done.
+
 ## Day 19
 
 Oh man do I miss `isset` in go. Other than that pretty much smooth sailing for day 19 puzzles.

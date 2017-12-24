@@ -5,7 +5,6 @@ import (
 	"math"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 var instructions = []string{
@@ -55,22 +54,56 @@ var instructions = []string{
 type Program struct {
 	id           int
 	instructions []string
-	sch          chan int
-	rch          chan int
-	regs         map[string]int
-	q            []int
-	sends        int
+	regs         map[string]int64
+	li           int
+	q            []int64
+	vs           int
+}
+
+func (p *Program) run(po *Program) {
+loop:
+	//log.Println(p.id, ": ", p.vs)
+	for i := p.li; i < len(p.instructions); i++ {
+		ip := strings.Fields(p.instructions[i])
+		op := ip[0]
+		reg := ip[1]
+
+		if op != "jgz" && len(ip) == 3 {
+			doValOp(op, reg, ip[2], p.regs)
+			continue
+		}
+
+		switch op {
+		case "jgz":
+			t, j := jump(reg, ip[2], p.regs)
+			if t > 0 {
+				i += int(j) - 1
+			}
+		case "snd":
+			p.vs++
+			val := regVal(reg, p.regs)
+			po.q = append(po.q, val)
+		case "rcv":
+			if len(p.q) != 0 {
+				p.regs[reg] = p.q[0]
+				p.q = p.q[1:]
+			} else if p.li != 0 && len(p.q) == 0 && len(po.q) == 0 {
+				break loop
+			} else {
+				p.li = i
+				po.run(p)
+			}
+		}
+	}
 }
 
 func newProgram(id int, instructions []string) *Program {
-	sch := make(chan int)
-	regs := map[string]int{
-		"p": id,
+	regs := map[string]int64{
+		"p": int64(id),
 	}
 	p := Program{
 		id:           id,
 		instructions: instructions,
-		sch:          sch,
 		regs:         regs,
 	}
 
@@ -88,91 +121,18 @@ func Day18() {
 }
 
 func SendReceive(instructions []string) int {
-	var wg sync.WaitGroup
-	wg.Add(2)
-
 	p0 := newProgram(0, instructions)
 	p1 := newProgram(1, instructions)
 
-	p0.rch = p1.sch
-	p1.rch = p0.sch
+	p0.run(p1)
 
-	log.Println("Running programs")
-
-	go run(p0, &wg)
-	go run(p1, &wg)
-
-	wg.Wait()
-
-	log.Println("Closing up shop")
-
-	close(p0.sch)
-	close(p1.sch)
-
-	return p1.sends
-}
-
-func run(p *Program, wg *sync.WaitGroup) {
-	log.Println("Running ID: ", p.id)
-
-	var send = func(p *Program, reg string) {
-		log.Println("Send by ", p.id, ": ", reg)
-		p.sends++
-		val := regVal(reg, p.regs)
-		p.sch <- val
-	}
-
-	go func() {
-		log.Println("Rec by ", p.id)
-		val := <-p.rch
-		p.q = append(p.q, val)
-	}()
-
-	var retries int
-loop:
-	for i := 0; i < len(p.instructions); i++ {
-		ip := strings.Fields(p.instructions[i])
-		op := ip[0]
-		reg := ip[1]
-
-		if op != "jgz" && len(ip) == 3 {
-			doValOp(op, reg, ip[2], p.regs)
-		}
-
-		switch op {
-		case "jgz":
-			t, j := jump(reg, ip[2], p.regs)
-			if t > 0 {
-				i += j - 1
-			}
-		case "snd":
-			log.Println("Send for ", p.id, ": ", reg)
-			send(p, reg)
-		case "rcv":
-			//val := <-p.rch
-			//p.regs[reg] = val
-			//log.Println(p.id, ": ", p.q)
-			if len(p.q) == 0 {
-				i--
-				retries++
-				if retries > 5 {
-					break loop
-				}
-			} else {
-				val := p.q[0]
-				p.regs[reg] = val
-				p.q = p.q[1:]
-			}
-		}
-	}
-	log.Println(p.id, ": ", p.sends)
-	wg.Done()
+	return p1.vs
 }
 
 // RecoverSound recovers the last played sound
-func RecoverSound(instructions []string) int {
-	var regs = make(map[string]int)
-	var snd int
+func RecoverSound(instructions []string) int64 {
+	var regs = make(map[string]int64)
+	var snd int64
 
 loop:
 	for i := 0; i < len(instructions); i++ {
@@ -182,13 +142,14 @@ loop:
 
 		if op != "jgz" && len(ip) == 3 {
 			doValOp(op, reg, ip[2], regs)
+			continue
 		}
 
 		switch op {
 		case "jgz":
 			t, j := jump(reg, ip[2], regs)
 			if t > 0 {
-				i += j - 1
+				i += int(j) - 1
 			}
 		case "snd":
 			snd = regs[reg]
@@ -203,8 +164,8 @@ loop:
 	return snd
 }
 
-func doValOp(op string, reg string, val string, regs map[string]int) {
-	v := regVal(reg, regs)
+func doValOp(op string, reg string, val string, regs map[string]int64) {
+	v := regVal(val, regs)
 
 	switch op {
 	case "set":
@@ -214,11 +175,11 @@ func doValOp(op string, reg string, val string, regs map[string]int) {
 	case "mul":
 		regs[reg] = regs[reg] * v
 	case "mod":
-		regs[reg] = int(math.Mod(float64(regs[reg]), float64(v)))
+		regs[reg] = int64(math.Mod(float64(regs[reg]), float64(v)))
 	}
 }
 
-func jump(reg string, val string, regs map[string]int) (int, int) {
+func jump(reg string, val string, regs map[string]int64) (int64, int64) {
 	t := regVal(reg, regs)
 	j := regVal(val, regs)
 	return t, j
@@ -228,12 +189,13 @@ func isReg(r string) bool {
 	return r >= "a" && r <= "z"
 }
 
-func regVal(r string, regs map[string]int) int {
-	var v int
+func regVal(r string, regs map[string]int64) int64 {
+	var v int64
 	if isReg(r) {
 		v = regs[r]
 	} else {
-		v, _ = strconv.Atoi(r)
+		vv, _ := strconv.Atoi(r)
+		v = int64(vv)
 	}
 	return v
 }
