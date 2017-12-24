@@ -24,3 +24,17 @@ func TestRecoverSound(t *testing.T) {
 		t.Errorf("Got %d, expected %d", r, e)
 	}
 }
+
+func TestSendReceive(t *testing.T) {
+	instructions := []string{
+		"snd 1",
+		"snd 2",
+		"snd p",
+		"rcv a",
+		"rcv b",
+		"rcv c",
+		"rcv d",
+	}
+
+	SendReceive(instructions)
+}

@@ -5,6 +5,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 var instructions = []string{
@@ -51,11 +52,121 @@ var instructions = []string{
 	"jgz a -19",
 }
 
-// Day18 solves the puzzles for day 18
-func Day18(logger *log.Logger) {
-	s := RecoverSound(instructions)
+type Program struct {
+	id           int
+	instructions []string
+	sch          chan int
+	rch          chan int
+	regs         map[string]int
+	q            []int
+	sends        int
+}
 
-	logger.Println("Sound recovered: ", s)
+func newProgram(id int, instructions []string) *Program {
+	sch := make(chan int)
+	regs := map[string]int{
+		"p": id,
+	}
+	p := Program{
+		id:           id,
+		instructions: instructions,
+		sch:          sch,
+		regs:         regs,
+	}
+
+	return &p
+}
+
+// Day18 solves the puzzles for day 18
+func Day18() {
+	//s := RecoverSound(instructions)
+
+	//log.Println("Sound recovered: ", s)
+
+	c := SendReceive(instructions)
+	log.Println("Times sent a value: ", c)
+}
+
+func SendReceive(instructions []string) int {
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	p0 := newProgram(0, instructions)
+	p1 := newProgram(1, instructions)
+
+	p0.rch = p1.sch
+	p1.rch = p0.sch
+
+	log.Println("Running programs")
+
+	go run(p0, &wg)
+	go run(p1, &wg)
+
+	wg.Wait()
+
+	log.Println("Closing up shop")
+
+	close(p0.sch)
+	close(p1.sch)
+
+	return p1.sends
+}
+
+func run(p *Program, wg *sync.WaitGroup) {
+	log.Println("Running ID: ", p.id)
+
+	var send = func(p *Program, reg string) {
+		log.Println("Send by ", p.id, ": ", reg)
+		p.sends++
+		val := regVal(reg, p.regs)
+		p.sch <- val
+	}
+
+	go func() {
+		log.Println("Rec by ", p.id)
+		val := <-p.rch
+		p.q = append(p.q, val)
+	}()
+
+	var retries int
+loop:
+	for i := 0; i < len(p.instructions); i++ {
+		ip := strings.Fields(p.instructions[i])
+		op := ip[0]
+		reg := ip[1]
+
+		if op != "jgz" && len(ip) == 3 {
+			doValOp(op, reg, ip[2], p.regs)
+		}
+
+		switch op {
+		case "jgz":
+			t, j := jump(reg, ip[2], p.regs)
+			if t > 0 {
+				i += j - 1
+			}
+		case "snd":
+			log.Println("Send for ", p.id, ": ", reg)
+			send(p, reg)
+		case "rcv":
+			//val := <-p.rch
+			//p.regs[reg] = val
+			//log.Println(p.id, ": ", p.q)
+			if len(p.q) == 0 {
+				i--
+				retries++
+				if retries > 5 {
+					break loop
+				}
+			} else {
+				val := p.q[0]
+				p.regs[reg] = val
+				p.q = p.q[1:]
+			}
+		}
+	}
+	log.Println(p.id, ": ", p.sends)
+	wg.Done()
 }
 
 // RecoverSound recovers the last played sound
@@ -93,12 +204,7 @@ loop:
 }
 
 func doValOp(op string, reg string, val string, regs map[string]int) {
-	v := 0
-	if isReg(val) {
-		v = regs[val]
-	} else {
-		v, _ = strconv.Atoi(val)
-	}
+	v := regVal(reg, regs)
 
 	switch op {
 	case "set":
@@ -113,21 +219,21 @@ func doValOp(op string, reg string, val string, regs map[string]int) {
 }
 
 func jump(reg string, val string, regs map[string]int) (int, int) {
-	j := 0
-	t := 0
-	if isReg(reg) {
-		t = regs[reg]
-	} else {
-		t, _ = strconv.Atoi(reg)
-	}
-	if isReg(val) {
-		j = regs[val]
-	} else {
-		j, _ = strconv.Atoi(val)
-	}
+	t := regVal(reg, regs)
+	j := regVal(val, regs)
 	return t, j
 }
 
 func isReg(r string) bool {
 	return r >= "a" && r <= "z"
+}
+
+func regVal(r string, regs map[string]int) int {
+	var v int
+	if isReg(r) {
+		v = regs[r]
+	} else {
+		v, _ = strconv.Atoi(r)
+	}
+	return v
 }
