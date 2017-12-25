@@ -66,7 +66,10 @@ func Day20(folder string) {
 		i++
 	}
 
-	c := closest(particles)
+	c := closestunbuff(particles)
+	log.Println("Closest particle is, unbuffered: ", c.id)
+
+	c = closest(particles)
 	log.Println("Closest particle is: ", c.id)
 }
 
@@ -95,6 +98,39 @@ func closest(particles []Particle) Particle {
 	for particle := range pch {
 		findcp(particle)
 	}
+
+	return cp
+}
+
+func closestunbuff(particles []Particle) Particle {
+	var wg sync.WaitGroup
+	wg.Add(len(particles))
+
+	var cp Particle
+
+	pch := make(chan Particle)
+	defer close(pch)
+
+	var findcp = func(particle Particle) {
+		if cp.d == 0 || particle.d < cp.d {
+			cp = particle
+		}
+	}
+
+	go func() {
+		for {
+			select {
+			case particle := <-pch:
+				findcp(particle)
+			}
+		}
+	}()
+
+	for _, particle := range particles {
+		go move(particle, 285, pch, &wg)
+	}
+
+	wg.Wait()
 
 	return cp
 }
