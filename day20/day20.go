@@ -74,7 +74,7 @@ func closest(particles []Particle) Particle {
 	var wg sync.WaitGroup
 	wg.Add(len(particles))
 
-	var c Particle
+	var cp Particle
 
 	pch := make(chan Particle, len(particles))
 
@@ -86,13 +86,17 @@ func closest(particles []Particle) Particle {
 
 	close(pch)
 
-	for particle := range pch {
-		if c.d == 0 || particle.d < c.d {
-			c = particle
+	var findcp = func(particle Particle) {
+		if cp.d == 0 || particle.d < cp.d {
+			cp = particle
 		}
 	}
 
-	return c
+	for particle := range pch {
+		findcp(particle)
+	}
+
+	return cp
 }
 
 func move(particle Particle, iterations int, pch chan Particle, wg *sync.WaitGroup) {
