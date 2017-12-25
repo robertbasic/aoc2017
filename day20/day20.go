@@ -84,15 +84,13 @@ func closest(particles []Particle) Particle {
 
 	wg.Wait()
 
-	for i := 0; i < len(particles); i++ {
-		particle := <-pch
+	close(pch)
 
+	for particle := range pch {
 		if c.d == 0 || particle.d < c.d {
 			c = particle
 		}
 	}
-
-	close(pch)
 
 	return c
 }
